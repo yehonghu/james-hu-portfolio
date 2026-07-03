@@ -17,6 +17,13 @@ export const ASSETS = {
   mapleCafe: "/manus-storage/figma_prototype_maplecafe_c9a55dd4.png",
   lumen: "/manus-storage/brand_identity_board_3467cd1c.png",
   posters: "/manus-storage/poster_event_design_445eb464.png",
+  wechatQr: "/manus-storage/wechat_qr_67a44488.png",
+  psWorks: {
+    carnation: "/manus-storage/carnation_banner_a1ed7f85.png",
+    healing: "/manus-storage/healing_seminar_banner_5b0a3c83.png",
+    wolPoster: "/manus-storage/wateroflife_poster_34ee4fa9.png",
+    wolRollup: "/manus-storage/wateroflife_rollup_e0f6937e.png",
+  },
   iphone15: "/manus-storage/iphone15pro_home_ca046256.png",
   ourPlanet: "/manus-storage/ourplanet_home_ec31c366.png",
   findHouse: "/manus-storage/findhouse_home_00eda56e.png",

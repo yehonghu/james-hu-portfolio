@@ -1,42 +1,76 @@
 /*
  * Titanium Keynote — closing CTA.
- * Giant gradient statement + contact channels. Keynote finale energy.
+ * Giant gradient statement + contact channels + WeChat QR dialog.
  */
+import { useState } from "react";
 import { Reveal } from "./Reveal";
-import { Mail, Github, Linkedin, MessageCircle } from "lucide-react";
-import { toast } from "sonner";
+import { Mail, Github, Linkedin, MessageCircle, QrCode } from "lucide-react";
+import { ASSETS } from "@/lib/assets";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
-const CHANNELS = [
-  {
-    icon: MessageCircle,
-    label: "小红书 / 微信",
-    value: "私信我聊聊你的项目",
-    action: () =>
-      toast("在小红书搜索「HH」或私信我获取微信号", {
-        description: "工作日 24 小时内回复",
-      }),
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: "huyehong76@gmail.com",
-    href: "mailto:huyehong76@gmail.com",
-  },
-  {
-    icon: Github,
-    label: "GitHub",
-    value: "github.com/yehonghu",
-    href: "https://github.com/yehonghu",
-  },
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    value: "Yehong (James) Hu",
-    href: "https://linkedin.com/in/yehong-hu-142278297",
-  },
-];
+function WeChatDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (o: boolean) => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="glass-strong border-border max-w-sm">
+        <DialogHeader>
+          <DialogTitle className="font-display text-[18px]">加我微信,聊聊你的项目</DialogTitle>
+          <DialogDescription className="text-[13px] text-muted-foreground">
+            扫描下方二维码添加好友,备注「作品集」优先通过。
+          </DialogDescription>
+        </DialogHeader>
+        <div className="rounded-2xl overflow-hidden bg-white p-3">
+          <img src={ASSETS.wechatQr} alt="James Hu 微信二维码" className="w-full" />
+        </div>
+        <p className="text-center text-[12.5px] text-muted-foreground">
+          也可以在小红书搜索「HH」私信我 · 工作日 24 小时内回复
+        </p>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 export default function Contact() {
+  const [qrOpen, setQrOpen] = useState(false);
+
+  const CHANNELS = [
+    {
+      icon: MessageCircle,
+      label: "微信 / 小红书",
+      value: "点击查看二维码",
+      onClick: () => setQrOpen(true),
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      value: "huyehong76@gmail.com",
+      href: "mailto:huyehong76@gmail.com",
+    },
+    {
+      icon: Github,
+      label: "GitHub",
+      value: "github.com/yehonghu",
+      href: "https://github.com/yehonghu",
+    },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "Yehong (James) Hu",
+      href: "https://linkedin.com/in/yehong-hu-142278297",
+    },
+  ] as const;
+
   return (
     <section id="contact" className="py-24 md:py-36 relative overflow-hidden">
       <div
@@ -63,14 +97,11 @@ export default function Contact() {
         <Reveal delay={0.12}>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <button
-              onClick={() =>
-                toast("在小红书搜索「HH」私信我,或发邮件到 huyehong76@gmail.com", {
-                  description: "备注「作品集」,优先回复",
-                })
-              }
-              className="btn-press px-8 py-3.5 rounded-full bg-primary text-primary-foreground text-[15.5px] font-semibold hover:opacity-90 transition-opacity"
+              onClick={() => setQrOpen(true)}
+              className="btn-press inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-primary text-primary-foreground text-[15.5px] font-semibold hover:opacity-90 transition-opacity"
             >
-              开始你的项目
+              <QrCode size={17} />
+              微信扫码,开始你的项目
             </button>
             <a
               href="mailto:huyehong76@gmail.com"
@@ -84,7 +115,7 @@ export default function Contact() {
         <Reveal delay={0.2}>
           <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-[900px] mx-auto">
             {CHANNELS.map((c) =>
-              c.href ? (
+              "href" in c && c.href ? (
                 <a
                   key={c.label}
                   href={c.href}
@@ -99,7 +130,7 @@ export default function Contact() {
               ) : (
                 <button
                   key={c.label}
-                  onClick={c.action}
+                  onClick={"onClick" in c ? c.onClick : undefined}
                   className="glass rounded-2xl px-5 py-5 flex flex-col items-center gap-2 hover:bg-white/8 transition-colors"
                 >
                   <c.icon size={19} className="text-primary" />
@@ -111,6 +142,8 @@ export default function Contact() {
           </div>
         </Reveal>
       </div>
+
+      <WeChatDialog open={qrOpen} onOpenChange={setQrOpen} />
     </section>
   );
 }
