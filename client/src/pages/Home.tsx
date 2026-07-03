@@ -1,25 +1,30 @@
-import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { Streamdown } from 'streamdown';
-
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Best Practices, Design Guide and Common Pitfalls
+/*
+ * Titanium Keynote — James Hu portfolio single page.
+ * Vertical keynote narrative: Hero → Stats → Work → Services → Process → About → CTA.
  */
-export default function Home() {
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+import Nav from "@/components/Nav";
+import Hero from "@/components/Hero";
+import Stats from "@/components/Stats";
+import Work from "@/components/Work";
+import Services from "@/components/Services";
+import Process from "@/components/Process";
+import About from "@/components/About";
+import Contact, { Footer } from "@/components/Contact";
 
+export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-background text-foreground">
+      <Nav />
       <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
+        <Hero />
+        <Stats />
+        <Work />
+        <Services />
+        <Process />
+        <About />
+        <Contact />
       </main>
+      <Footer />
     </div>
   );
 }
