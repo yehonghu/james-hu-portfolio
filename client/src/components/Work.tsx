@@ -241,48 +241,31 @@ export default function Work() {
           <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {GALLERY.map((g, i) => (
               <Reveal key={g.title} delay={i * 0.06}>
-                {g.href ? (
-                  <a
-                    href={g.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group block rounded-2xl overflow-hidden border border-border glass hover:bg-white/8 transition-colors"
-                  >
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img
-                        src={g.src}
-                        alt={g.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <p className="text-[14px] font-semibold flex items-center gap-1">
-                        {g.title}
-                        <ArrowUpRight
-                          size={13}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity text-primary"
-                        />
-                      </p>
-                      <p className="mt-1 text-[12px] text-muted-foreground">{g.sub}</p>
-                    </div>
-                  </a>
-                ) : (
-                  <div className="group rounded-2xl overflow-hidden border border-border glass">
-                    <div className="aspect-[4/3] overflow-hidden">
-                      <img
-                        src={g.src}
-                        alt={g.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <p className="text-[14px] font-semibold">{g.title}</p>
-                      <p className="mt-1 text-[12px] text-muted-foreground">{g.sub}</p>
-                    </div>
+                <a
+                  href={g.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group block rounded-2xl overflow-hidden border border-border glass hover:bg-white/8 transition-colors"
+                >
+                  <div className="aspect-[4/3] overflow-hidden">
+                    <img
+                      src={g.src}
+                      alt={g.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
+                    />
                   </div>
-                )}
+                  <div className="p-4">
+                    <p className="text-[14px] font-semibold flex items-center gap-1">
+                      {g.title}
+                      <ArrowUpRight
+                        size={13}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity text-primary"
+                      />
+                    </p>
+                    <p className="mt-1 text-[12px] text-muted-foreground">{g.sub}</p>
+                  </div>
+                </a>
               </Reveal>
             ))}
           </div>
