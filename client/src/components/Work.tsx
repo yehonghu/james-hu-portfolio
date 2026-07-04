@@ -103,7 +103,7 @@ const GALLERY = [
     src: ASSETS.findHouse,
     title: "Find House 房产平台",
     sub: "高端房地产前端 · 动效与交互升级",
-    href: "https://yehonghu.github.io/find-house-portfolio/",
+    href: "https://yehonghu.github.io/find-house-portfolio/home.html",
   },
   {
     src: ASSETS.ourPlanet,
