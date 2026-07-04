@@ -230,7 +230,7 @@ export default function Work() {
         {/* Frontend aesthetics gallery */}
         <div className="mt-28">
           <Reveal>
-            <SectionLabel en="More Craft" zh="前端美学 & 视觉物料" />
+            <SectionLabel en="More Craft" zh="前端美学" />
             <h3 className="font-display font-bold text-[28px] md:text-[36px] text-titanium">
               手感,是练出来的。
             </h3>
