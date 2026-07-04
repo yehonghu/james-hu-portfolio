@@ -111,38 +111,6 @@ const GALLERY = [
     sub: "Apple 风多页站点 · 视觉叙事",
     href: "https://yehonghu.github.io/our-planet-environmental-website/",
   },
-  {
-    src: ASSETS.posters,
-    title: "活动海报系列概念",
-    sub: "学生会主席任期 · 活动策划与视觉物料",
-  },
-];
-
-const PS_WORKS = [
-  {
-    src: ASSETS.psWorks.carnation,
-    title: "Carnation of Thanks 感恩活动主视觉",
-    sub: "母亲节/父亲节活动 Banner · 金箔花体与实拍康乃馨合成",
-    wide: true,
-  },
-  {
-    src: ASSETS.psWorks.healing,
-    title: "Healing Seminar 讲座主视觉",
-    sub: "紫金大理石质感 · 多图层光效与金箔字体处理",
-    wide: true,
-  },
-  {
-    src: ASSETS.psWorks.wolPoster,
-    title: "Water of Life 社团海报",
-    sub: "Bible Seminar 活动海报 · 光效合成与信息层级排版",
-    wide: false,
-  },
-  {
-    src: ASSETS.psWorks.wolRollup,
-    title: "社团易拉宝 Roll-up",
-    sub: "线下展架物料 · 印前工艺与大尺寸输出",
-    wide: false,
-  },
 ];
 
 function CaseBlock({ c, index }: { c: CaseStudy; index: number }) {
@@ -259,64 +227,6 @@ export default function Work() {
           ))}
         </div>
 
-        {/* Real PS design works */}
-        <div className="mt-28">
-          <Reveal>
-            <SectionLabel en="Design Works" zh="Photoshop 真实设计物料" />
-            <h3 className="font-display font-bold text-[28px] md:text-[36px] text-titanium">
-              每一张物料,
-              <br className="sm:hidden" />
-              都真实地挂在过现场。
-            </h3>
-            <p className="mt-4 text-[14.5px] text-muted-foreground max-w-[560px] leading-relaxed">
-              担任高校社团主席期间,我独立完成从活动策划到视觉物料的全部产出——Banner、海报、易拉宝,从屏幕到印刷机,都经得起放大看。
-            </p>
-          </Reveal>
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Two wide banners stacked left (span 2), two tall posters right */}
-            <div className="md:col-span-2 flex flex-col gap-4">
-              {PS_WORKS.filter((w) => w.wide).map((w, i) => (
-                <Reveal key={w.title} delay={i * 0.07}>
-                  <div className="group rounded-2xl overflow-hidden border border-border glass">
-                    <div className="overflow-hidden">
-                      <img
-                        src={w.src}
-                        alt={w.title}
-                        loading="lazy"
-                        className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <p className="text-[14px] font-semibold">{w.title}</p>
-                      <p className="mt-1 text-[12px] text-muted-foreground">{w.sub}</p>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
-              {PS_WORKS.filter((w) => !w.wide).map((w, i) => (
-                <Reveal key={w.title} delay={0.14 + i * 0.07}>
-                  <div className="group rounded-2xl overflow-hidden border border-border glass h-full flex flex-col">
-                    <div className="overflow-hidden flex-1">
-                      <img
-                        src={w.src}
-                        alt={w.title}
-                        loading="lazy"
-                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-                      />
-                    </div>
-                    <div className="p-4">
-                      <p className="text-[14px] font-semibold">{w.title}</p>
-                      <p className="mt-1 text-[12px] text-muted-foreground">{w.sub}</p>
-                    </div>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* Frontend aesthetics gallery */}
         <div className="mt-28">
           <Reveal>
@@ -328,7 +238,7 @@ export default function Work() {
               带 ↗ 的作品均可点击,直接在线浏览真实网页。
             </p>
           </Reveal>
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {GALLERY.map((g, i) => (
               <Reveal key={g.title} delay={i * 0.06}>
                 {g.href ? (
