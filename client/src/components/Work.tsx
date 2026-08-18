@@ -1,11 +1,7 @@
-/*
- * Titanium Keynote — featured work.
- * Each case presented like a product launch: alternating asymmetric layout,
- * device shots, glass tags, gradient accents.
- */
-import { Reveal, SectionLabel } from "./Reveal";
-import { ASSETS } from "@/lib/assets";
+import { motion } from "framer-motion";
 import { ArrowUpRight, Github } from "lucide-react";
+import { ASSETS } from "@/lib/assets";
+import { Reveal, SectionLabel } from "./Reveal";
 
 type CaseStudy = {
   id: string;
@@ -14,7 +10,7 @@ type CaseStudy = {
   tagline: string;
   description: string;
   tags: string[];
-  images: { src: string; alt: string; className?: string }[];
+  images: { src: string; alt: string }[];
   layout: "left" | "right";
   link?: { href: string; label: string; icon?: "github" };
   accent: string;
@@ -23,168 +19,166 @@ type CaseStudy = {
 const CASES: CaseStudy[] = [
   {
     id: "bookease",
-    category: "全栈开发 · Full-Stack Web App",
+    category: "Full-Stack Product · Marketplace",
     title: "BookEase",
-    tagline: "本地服务预约平台,告别私信漏单。",
+    tagline: "A clearer path from service request to confirmed booking.",
     description:
-      "为本地服务商打造的商业级预约系统:客户发布需求、商家竞价接单、日历自动锁位防止撞单、评价体系沉淀口碑,外加管理员总控后台。React + Node.js + MongoDB 全栈架构,JWT 安全认证,已完成云端部署,获课程 A+ 评级。",
-    tags: ["React 18", "Node.js / Express", "MongoDB", "JWT 认证", "云端部署", "三端角色系统"],
+      "A local-service booking platform designed around the real handoffs between customers, providers, and administrators. It combines request publishing, competitive bids, availability management, booking states, and reviews into one accountable workflow.",
+    tags: ["React", "Node.js / Express", "MongoDB", "JWT Authentication", "Role-Based UX", "Cloud Deployment"],
     images: [
-      { src: ASSETS.bookease.home, alt: "BookEase 首页" },
-      { src: ASSETS.bookease.customer, alt: "客户仪表盘" },
-      { src: ASSETS.bookease.availability, alt: "商家排期日历" },
+      { src: ASSETS.bookease.home, alt: "BookEase landing page" },
+      { src: ASSETS.bookease.customer, alt: "BookEase customer dashboard" },
+      { src: ASSETS.bookease.availability, alt: "BookEase provider availability calendar" },
     ],
     layout: "left",
     link: {
       href: "https://github.com/yehonghu/BookEase-COMP313-Group6-Final",
-      label: "查看源码",
+      label: "View source code",
       icon: "github",
     },
-    accent: "from-[#0A84FF] to-[#5E5CE6]",
+    accent: "from-sky-300 via-blue-400 to-violet-400",
   },
   {
     id: "kazan",
-    category: "餐饮官网概念 · Restaurant Web Design",
+    category: "Restaurant Experience · Product Direction",
     title: "KAZAN Ramen",
-    tagline: "一碗拉面的官网,也是 24 小时的点单前台。",
+    tagline: "A restaurant website designed to move guests from discovery to order.",
     description:
-      "为多伦多餐饮客户设计的官网+线上点单方案:深色氛围大片式首屏、菜单即刻下单、移动端优先的取餐流程。顾客不再需要在 Instagram 里翻菜单——Google 搜到你,三十秒下完单。",
-    tags: ["品牌视觉", "响应式设计", "线上点单 UX", "移动端优先"],
-    images: [{ src: ASSETS.kazan, alt: "KAZAN Ramen 官网设备展示" }],
+      "A high-energy concept for a Toronto restaurant: a cinematic first impression, a mobile-first menu, and a friction-light path to ordering. The experience is designed to turn a local search into a confident next action.",
+    tags: ["Brand Direction", "Responsive Design", "Ordering UX", "Mobile First"],
+    images: [{ src: ASSETS.kazan, alt: "KAZAN Ramen web experience" }],
     layout: "right",
-    accent: "from-[#FF453A] to-[#FF9F0A]",
+    accent: "from-orange-300 via-rose-400 to-amber-300",
   },
   {
     id: "velvet",
-    category: "Figma UI/UX · Web Design",
+    category: "Figma UI/UX · Service Design",
     title: "VELVET Beauty Bar",
-    tagline: "先看见成品,再写第一行代码。",
+    tagline: "Make the experience visible before the first line of code.",
     description:
-      "美容工作室的完整 Figma 设计交付:高保真首页 + 四步预约流程(选服务→选时间→填信息→确认),含服务卡片定价与日历时段选择器。客户在开发前就能点击交互原型,把每一个像素确认到位。",
-    tags: ["Figma 高保真", "交互原型", "预约流程设计", "设计系统"],
-    images: [{ src: ASSETS.velvet, alt: "VELVET Beauty Bar Figma 设计稿" }],
+      "A high-fidelity website and booking flow for a beauty studio. The prototype brings service selection, availability, personal details, and confirmation into a clear four-step journey that stakeholders can test before development starts.",
+    tags: ["Figma", "Interactive Prototype", "Booking Flow", "Design System"],
+    images: [{ src: ASSETS.velvet, alt: "VELVET Beauty Bar interface design" }],
     layout: "left",
-    accent: "from-[#FF375F] to-[#FF6482]",
+    accent: "from-pink-300 via-rose-400 to-fuchsia-300",
   },
   {
     id: "maple",
-    category: "Figma 移动端原型 · Mobile App Design",
+    category: "Mobile Prototype · Product Design",
     title: "Maple & Co. Cafe",
-    tagline: "从线框到高保真,一条完整的设计流水线。",
+    tagline: "A complete product path from wireframe to tap-ready prototype.",
     description:
-      "咖啡品牌移动端点单 App 的 Figma 全流程:低保真线框图 → 高保真界面 → 原型连线演示。首页、菜单、结账三大核心场景,森绿+奶油的品牌配色体系,展示我如何把「想法」一步步变成「可点击的产品」。",
-    tags: ["线框图 Wireframe", "高保真 UI", "原型演示", "品牌配色"],
-    images: [{ src: ASSETS.mapleCafe, alt: "Maple & Co. Cafe Figma 原型" }],
+      "A mobile ordering concept developed through low-fidelity wireframes, high-fidelity interface design, and connected prototype flows. The work focuses on the three moments that define the experience: discovery, menu selection, and checkout.",
+    tags: ["Wireframes", "High-Fidelity UI", "Prototype Design", "Brand System"],
+    images: [{ src: ASSETS.mapleCafe, alt: "Maple and Co. Cafe mobile prototype" }],
     layout: "right",
-    accent: "from-[#30D158] to-[#66D4CF]",
+    accent: "from-emerald-300 via-teal-400 to-cyan-300",
   },
   {
     id: "lumen",
-    category: "品牌设计 · Brand Identity",
+    category: "Brand Identity · Visual System",
     title: "LUMEN Studio",
-    tagline: "一套 Logo 之外,是一整套品牌语言。",
+    tagline: "A brand is not a logo. It is a system people can recognize.",
     description:
-      "多伦多养生工作室的品牌识别系统:几何日出 Logo 与三款变体、五色品牌色板(含精确色值)、衬线×无衬线的字体组合规范,并落地到名片与帆布袋应用。让客户拿到的不只是图,而是可长期使用的品牌规范。",
-    tags: ["Logo 设计", "VI 规范", "色彩系统", "Photoshop / Illustrator"],
-    images: [{ src: ASSETS.lumen, alt: "LUMEN Studio 品牌识别系统" }],
+      "A visual identity system for a wellness studio, including a geometric sunrise mark, logo variations, a five-color palette, typography direction, and practical applications. The goal was a brand language that remains consistent beyond the launch asset.",
+    tags: ["Identity Design", "Logo System", "Color Strategy", "Illustrator / Photoshop"],
+    images: [{ src: ASSETS.lumen, alt: "LUMEN Studio brand identity system" }],
     layout: "left",
-    accent: "from-[#FFD60A] to-[#FF9F0A]",
+    accent: "from-amber-200 via-yellow-300 to-orange-300",
   },
 ];
 
 const GALLERY = [
   {
     src: ASSETS.iphone15,
-    title: "iPhone 15 Pro 产品页",
-    sub: "纯手写 Apple 风格落地页 · HTML/CSS/JS",
+    title: "iPhone 15 Pro Interface Study",
+    sub: "Responsive product-page implementation · HTML / CSS / JavaScript",
     href: "https://yehonghu.github.io/iphone15pro-portfolio",
   },
   {
     src: ASSETS.findHouse,
-    title: "Find House 房产平台",
-    sub: "高端房地产前端 · 动效与交互升级",
+    title: "Find House",
+    sub: "Premium real-estate discovery experience · Motion and interaction",
     href: "https://yehonghu.github.io/find-house-portfolio/home.html",
   },
   {
     src: ASSETS.ourPlanet,
-    title: "Our Planet 环保主题站",
-    sub: "Apple 风多页站点 · 视觉叙事",
+    title: "Our Planet",
+    sub: "Editorial environmental website · Content-led visual storytelling",
     href: "https://yehonghu.github.io/our-planet-environmental-website/",
   },
 ];
 
-function CaseBlock({ c, index }: { c: CaseStudy; index: number }) {
-  const multi = c.images.length > 1;
+function CaseBlock({ study, index }: { study: CaseStudy; index: number }) {
+  const multiImage = study.images.length > 1;
   const visual = (
-    <Reveal delay={0.08} className="relative">
-      {multi ? (
-        <div className="grid grid-cols-2 gap-3">
-          <div className="col-span-2 rounded-2xl overflow-hidden border border-border group">
-            <img
-              src={c.images[0].src}
-              alt={c.images[0].alt}
-              loading="lazy"
-              className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-            />
-          </div>
-          {c.images.slice(1).map((im) => (
-            <div key={im.src} className="rounded-2xl overflow-hidden border border-border group">
+    <Reveal depth={40} delay={0.05} className="scene relative">
+      <motion.div
+        className="depth-card relative overflow-hidden rounded-[1.75rem] border border-border bg-card/45"
+        whileHover={{ rotateY: study.layout === "left" ? -2.5 : 2.5, rotateX: 2, y: -8 }}
+        transition={{ type: "spring", stiffness: 240, damping: 22 }}
+      >
+        {multiImage ? (
+          <div className="grid grid-cols-2 gap-2.5 p-2.5">
+            <div className="col-span-2 overflow-hidden rounded-[1.2rem]">
               <img
-                src={im.src}
-                alt={im.alt}
+                src={study.images[0].src}
+                alt={study.images[0].alt}
                 loading="lazy"
-                className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                className="aspect-[16/9] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
             </div>
-          ))}
-        </div>
-      ) : (
-        <div className="rounded-2xl overflow-hidden border border-border group shadow-[0_30px_60px_-25px_rgba(0,0,0,0.65)]">
+            {study.images.slice(1).map((image) => (
+              <div key={image.src} className="overflow-hidden rounded-[1.2rem]">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  loading="lazy"
+                  className="aspect-[4/3] w-full object-cover transition-transform duration-700 hover:scale-[1.04]"
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
           <img
-            src={c.images[0].src}
-            alt={c.images[0].alt}
+            src={study.images[0].src}
+            alt={study.images[0].alt}
             loading="lazy"
-            className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+            className="aspect-[16/10] w-full object-cover transition-transform duration-700 hover:scale-[1.035]"
           />
-        </div>
-      )}
+        )}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/35 via-transparent to-white/5" />
+      </motion.div>
     </Reveal>
   );
 
-  const text = (
-    <Reveal className="flex flex-col justify-center">
-      <p className="text-[12.5px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-        <span className="mr-2 text-gravity">{String(index + 1).padStart(2, "0")}</span>
-        {c.category}
+  const copy = (
+    <Reveal depth={18} className="flex flex-col justify-center">
+      <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        <span className="mr-2 font-mono text-primary">{String(index + 1).padStart(2, "0")}</span>
+        {study.category}
       </p>
-      <h3 className="mt-3 font-display font-bold text-[34px] md:text-[44px] leading-tight text-titanium">
-        {c.title}
-      </h3>
-      <p
-        className={`mt-1.5 font-display font-semibold text-[18px] md:text-[20px] bg-gradient-to-r ${c.accent} bg-clip-text text-transparent`}
-      >
-        {c.tagline}
+      <h3 className="mt-3 font-display text-[36px] font-bold leading-tight text-titanium md:text-[48px]">{study.title}</h3>
+      <p className={`mt-2 bg-gradient-to-r ${study.accent} bg-clip-text text-[18px] font-semibold text-transparent md:text-[20px]`}>
+        {study.tagline}
       </p>
-      <p className="mt-5 text-[15px] leading-relaxed text-muted-foreground">{c.description}</p>
+      <p className="mt-5 text-[15.5px] leading-relaxed text-muted-foreground">{study.description}</p>
       <div className="mt-6 flex flex-wrap gap-2">
-        {c.tags.map((t) => (
-          <span
-            key={t}
-            className="glass rounded-full px-3 py-1 text-[12px] text-secondary-foreground"
-          >
-            {t}
+        {study.tags.map((tag) => (
+          <span key={tag} className="rounded-full border border-border bg-white/[0.025] px-3 py-1 text-[12px] text-secondary-foreground">
+            {tag}
           </span>
         ))}
       </div>
-      {c.link && (
+      {study.link && (
         <a
-          href={c.link.href}
+          href={study.link.href}
           target="_blank"
           rel="noreferrer"
-          className="mt-7 inline-flex items-center gap-1.5 text-[14px] font-semibold text-primary hover:opacity-80 transition-opacity w-fit"
+          className="mt-7 inline-flex w-fit items-center gap-1.5 text-[14px] font-semibold text-primary transition-opacity hover:opacity-75"
         >
-          {c.link.icon === "github" && <Github size={15} />}
-          {c.link.label}
+          {study.link.icon === "github" && <Github size={15} />}
+          {study.link.label}
           <ArrowUpRight size={14} />
         </a>
       )}
@@ -192,80 +186,73 @@ function CaseBlock({ c, index }: { c: CaseStudy; index: number }) {
   );
 
   return (
-    <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
-      {c.layout === "left" ? (
+    <article className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+      {study.layout === "left" ? (
         <>
           {visual}
-          {text}
+          {copy}
         </>
       ) : (
         <>
           <div className="lg:order-2">{visual}</div>
-          <div className="lg:order-1">{text}</div>
+          <div className="lg:order-1">{copy}</div>
         </>
       )}
-    </div>
+    </article>
   );
 }
 
 export default function Work() {
   return (
-    <section id="work" className="py-20 md:py-28 relative">
-      <div className="container">
+    <section id="work" className="relative py-24 md:py-36">
+      <div aria-hidden="true" className="absolute inset-x-0 top-20 h-[560px] bg-[radial-gradient(ellipse_at_75%_30%,rgba(75,120,255,0.10),transparent_62%)]" />
+      <div className="container relative">
         <Reveal>
-          <SectionLabel en="Featured Work" zh="精选案例" />
-          <h2 className="font-display font-bold text-[36px] md:text-[52px] leading-tight text-titanium max-w-[720px]">
-            每一个案例,
-            <br />
-            都当作一场产品发布。
+          <SectionLabel label="Selected Work" index="01" />
+          <h2 className="max-w-[760px] font-display text-[40px] font-bold leading-[1.02] text-titanium md:text-[60px]">
+            Every project deserves a point of view.
           </h2>
+          <p className="mt-5 max-w-[590px] text-[16px] leading-relaxed text-muted-foreground">
+            A selection of product, interface, and identity work built to make an idea easier to understand, use, and grow.
+          </p>
         </Reveal>
 
-        <div className="mt-16 md:mt-24 flex flex-col gap-24 md:gap-32">
-          {CASES.map((c, i) => (
-            <CaseBlock key={c.id} c={c} index={i} />
+        <div className="mt-20 flex flex-col gap-28 md:mt-28 md:gap-36">
+          {CASES.map((study, index) => (
+            <CaseBlock key={study.id} study={study} index={index} />
           ))}
         </div>
 
-        {/* Frontend aesthetics gallery */}
-        <div className="mt-28">
+        <div className="mt-28 border-t border-border pt-20 md:mt-36 md:pt-24">
           <Reveal>
-            <SectionLabel en="More Craft" zh="前端美学" />
-            <h3 className="font-display font-bold text-[28px] md:text-[36px] text-titanium">
-              手感,是练出来的。
-            </h3>
-            <p className="mt-4 text-[14.5px] text-muted-foreground">
-              带 ↗ 的作品均可点击,直接在线浏览真实网页。
+            <SectionLabel label="Interface Studies" index="02" />
+            <h3 className="font-display text-[32px] font-bold text-titanium md:text-[42px]">Craft lives in the details.</h3>
+            <p className="mt-4 max-w-[560px] text-[14.5px] text-muted-foreground">
+              These studies focus on visual systems, responsive behavior, and interaction polish. Each card opens a live public implementation.
             </p>
           </Reveal>
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {GALLERY.map((g, i) => (
-              <Reveal key={g.title} delay={i * 0.06}>
-                <a
-                  href={g.href}
+          <div className="scene mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {GALLERY.map((item, index) => (
+              <Reveal key={item.title} delay={index * 0.07} depth={index * 12}>
+                <motion.a
+                  href={item.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="group block rounded-2xl overflow-hidden border border-border glass hover:bg-white/8 transition-colors"
+                  className="depth-card group block overflow-hidden rounded-2xl border border-border glass"
+                  whileHover={{ y: -8, rotateX: 2, rotateY: index === 1 ? 0 : index === 0 ? -2 : 2 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 22 }}
                 >
                   <div className="aspect-[4/3] overflow-hidden">
-                    <img
-                      src={g.src}
-                      alt={g.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
+                    <img src={item.src} alt={item.title} loading="lazy" className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.06]" />
                   </div>
                   <div className="p-4">
-                    <p className="text-[14px] font-semibold flex items-center gap-1">
-                      {g.title}
-                      <ArrowUpRight
-                        size={13}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-primary"
-                      />
+                    <p className="flex items-center gap-1 text-[14px] font-semibold">
+                      {item.title}
+                      <ArrowUpRight size={13} className="text-primary opacity-0 transition-opacity group-hover:opacity-100" />
                     </p>
-                    <p className="mt-1 text-[12px] text-muted-foreground">{g.sub}</p>
+                    <p className="mt-1 text-[12px] leading-relaxed text-muted-foreground">{item.sub}</p>
                   </div>
-                </a>
+                </motion.a>
               </Reveal>
             ))}
           </div>

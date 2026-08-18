@@ -1,8 +1,4 @@
-/*
- * Titanium Keynote — scroll reveal primitives.
- * fade + rise (y 24→0), ≤500ms, ease-out, stagger 60ms. No bounce.
- */
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 const EASE = [0.23, 1, 0.32, 1] as const;
@@ -11,32 +7,35 @@ export function Reveal({
   children,
   delay = 0,
   className,
+  depth = 0,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
+  depth?: number;
 }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.5, delay, ease: EASE }}
+      style={{ transformStyle: "preserve-3d" }}
+      initial={reduceMotion ? { opacity: 1 } : { opacity: 0, y: 34, rotateX: -8, z: depth ? -depth : 0 }}
+      whileInView={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, rotateX: 0, z: 0 }}
+      viewport={{ once: true, margin: "-10% 0px -6%" }}
+      transition={{ duration: reduceMotion ? 0.01 : 0.68, delay, ease: EASE }}
     >
       {children}
     </motion.div>
   );
 }
 
-export function SectionLabel({ en, zh }: { en: string; zh: string }) {
+export function SectionLabel({ label, index }: { label: string; index?: string }) {
   return (
-    <div className="flex items-center gap-3 mb-5">
-      <span className="text-[13px] font-semibold uppercase tracking-[0.18em] text-gravity">
-        {en}
-      </span>
+    <div className="mb-5 flex items-center gap-3">
+      {index && <span className="font-mono text-[11px] text-primary/80">{index}</span>}
+      <span className="text-[12px] font-semibold uppercase tracking-[0.2em] text-gravity">{label}</span>
       <span className="hairline w-10" />
-      <span className="text-[13px] text-muted-foreground tracking-wide">{zh}</span>
     </div>
   );
 }

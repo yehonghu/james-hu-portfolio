@@ -1,124 +1,104 @@
-/*
- * Titanium Keynote — services bento.
- * Glass cards on black, one gradient accent per capability.
- */
+import { motion } from "framer-motion";
+import { CalendarCheck, Code2, Figma, Palette, Search, Store } from "lucide-react";
 import { Reveal, SectionLabel } from "./Reveal";
-import { Palette, Figma, Code2, Search, CalendarCheck, Store } from "lucide-react";
 
 const SERVICES = [
   {
     icon: Palette,
-    title: "品牌与视觉设计",
-    en: "Brand & Visual Identity",
-    desc: "Logo、色彩系统、字体规范、宣传物料。用 Photoshop / Illustrator 打磨一套可长期使用的品牌语言,而不是一张一次性的图。",
-    points: ["Logo / VI 系统", "海报与营销物料", "印前工艺把控"],
-    accent: "from-[#FFD60A] to-[#FF9F0A]",
-    span: "",
+    title: "Brand & Visual Identity",
+    desc: "Identity systems, color direction, typography, and campaign-ready assets designed to give a business a visual language it can use long after launch day.",
+    points: ["Logo and identity systems", "Campaign and print assets", "Production-ready design files"],
+    accent: "from-amber-200 to-orange-400",
   },
   {
     icon: Figma,
-    title: "网页与 UI/UX 设计",
-    en: "Web & Product Design",
-    desc: "Figma 线框图 → 高保真界面 → 可点击原型。开发之前,你就能亲手「用」到你的网站,把改动成本压到最低。",
-    points: ["Figma 高保真原型", "响应式布局", "预约 / 点单流程 UX"],
-    accent: "from-[#FF375F] to-[#BF5AF2]",
-    span: "",
+    title: "Web & Product Design",
+    desc: "From wireframes to high-fidelity interfaces and clickable prototypes. The experience becomes visible early, so teams can decide with confidence before development begins.",
+    points: ["High-fidelity Figma prototypes", "Responsive interface systems", "Booking and ordering UX"],
+    accent: "from-pink-300 to-fuchsia-500",
   },
   {
     icon: Code2,
-    title: "全栈开发与部署",
-    en: "Full-Stack Development",
-    desc: "React + Node.js + MongoDB 的现代技术栈,从数据库设计、API 编写到 GitHub 自动化部署(CI/CD),一个人交付整条流水线。",
-    points: ["预约 / 订餐系统", "后台管理面板", "云端部署 + CI/CD"],
-    accent: "from-[#0A84FF] to-[#5E5CE6]",
-    span: "",
+    title: "Full-Stack Development",
+    desc: "Modern React and Node.js applications built from data model to deployment. One partner can own the system, the interface, and the details in between.",
+    points: ["Booking and commerce flows", "Admin and operations dashboards", "Deployment and delivery support"],
+    accent: "from-sky-300 to-violet-500",
   },
 ];
 
 const EXTRAS = [
   {
     icon: Search,
-    title: "本地 SEO 基础优化",
-    desc: "让多伦多的客户在 Google 搜索时,第一时间找到你。",
+    title: "Local search foundations",
+    desc: "A discoverable digital presence for customers looking nearby.",
   },
   {
     icon: CalendarCheck,
-    title: "预约系统定制",
-    desc: "日历锁位、防撞单、自动提醒——私信漏单从此成为过去。",
+    title: "Booking system design",
+    desc: "Availability, conflict prevention, and reminders designed around real operations.",
   },
   {
     icon: Store,
-    title: "小企业官网套餐",
-    desc: "餐饮、美容、服务行业,快速上线的 24 小时品牌门面。",
+    title: "Small-business launch sites",
+    desc: "A concise, credible online home for service, hospitality, and retail brands.",
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="py-20 md:py-28 relative">
-      <div
-        className="absolute inset-x-0 top-0 h-[420px] pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 55% 45% at 50% 0%, oklch(0.4 0.14 275 / 14%), transparent 70%)",
-        }}
-      />
+    <section id="services" className="relative py-24 md:py-36">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-[560px] bg-[radial-gradient(ellipse_at_50%_0%,rgba(102,110,255,0.13),transparent_66%)]" />
       <div className="container relative">
         <Reveal>
-          <SectionLabel en="Services" zh="我能为你做什么" />
-          <h2 className="font-display font-bold text-[36px] md:text-[52px] leading-tight text-titanium max-w-[760px]">
-            从 Logo 到数据库,
-            <br />
-            一个人,一条流水线。
+          <SectionLabel label="Capabilities" index="03" />
+          <h2 className="max-w-[820px] font-display text-[40px] font-bold leading-[1.02] text-titanium md:text-[60px]">
+            From the first mark to the final deployment.
           </h2>
-          <p className="mt-5 text-[15.5px] text-muted-foreground max-w-[560px] leading-relaxed">
-            不用在设计师和程序员之间来回传话。设计稿怎么画的,代码就怎么实现——像素级还原,是我给自己的验收标准。
+          <p className="mt-5 max-w-[610px] text-[16px] leading-relaxed text-muted-foreground">
+            There is less friction when strategy, interface, and implementation are connected. I design the intent and build the experience with the same level of care.
           </p>
         </Reveal>
 
-        <div className="mt-14 grid md:grid-cols-3 gap-4">
-          {SERVICES.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.07}>
-              <div className="glass rounded-3xl p-7 h-full flex flex-col hover:bg-white/8 transition-colors duration-300 group">
-                <div
-                  className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${s.accent} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-105`}
-                >
-                  <s.icon size={20} className="text-white" />
+        <div className="scene mt-16 grid gap-4 md:grid-cols-3">
+          {SERVICES.map((service, index) => (
+            <Reveal key={service.title} delay={index * 0.08} depth={index * 16}>
+              <motion.article
+                className="depth-card group flex h-full flex-col rounded-3xl border border-border glass p-7"
+                whileHover={{ y: -10, rotateX: 3, rotateY: index === 1 ? 0 : index === 0 ? -3 : 3 }}
+                transition={{ type: "spring", stiffness: 250, damping: 22 }}
+              >
+                <div className={`mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent} shadow-lg`}>
+                  <service.icon size={20} className="text-white" />
                 </div>
-                <h3 className="font-display font-bold text-[20px]">{s.title}</h3>
-                <p className="text-[12px] text-muted-foreground uppercase tracking-[0.12em] mt-1">
-                  {s.en}
-                </p>
-                <p className="mt-4 text-[14px] leading-relaxed text-muted-foreground flex-1">
-                  {s.desc}
-                </p>
-                <ul className="mt-5 flex flex-col gap-2">
-                  {s.points.map((p) => (
-                    <li key={p} className="flex items-center gap-2 text-[13px]">
-                      <span
-                        className={`w-1 h-1 rounded-full bg-gradient-to-r ${s.accent}`}
-                      />
-                      {p}
+                <h3 className="font-display text-[22px] font-bold">{service.title}</h3>
+                <p className="mt-4 flex-1 text-[14px] leading-relaxed text-muted-foreground">{service.desc}</p>
+                <ul className="mt-6 flex flex-col gap-2.5">
+                  {service.points.map((point) => (
+                    <li key={point} className="flex items-center gap-2 text-[13px] text-secondary-foreground">
+                      <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${service.accent}`} />
+                      {point}
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.article>
             </Reveal>
           ))}
         </div>
 
-        <div className="mt-4 grid sm:grid-cols-3 gap-4">
-          {EXTRAS.map((e, i) => (
-            <Reveal key={e.title} delay={0.2 + i * 0.06}>
-              <div className="glass rounded-3xl px-6 py-5 flex items-start gap-4 hover:bg-white/8 transition-colors duration-300">
-                <e.icon size={18} className="text-primary mt-0.5 shrink-0" />
+        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          {EXTRAS.map((extra, index) => (
+            <Reveal key={extra.title} delay={0.18 + index * 0.07} depth={12}>
+              <motion.div
+                className="depth-card flex h-full items-start gap-4 rounded-3xl border border-border glass px-6 py-5"
+                whileHover={{ y: -5, rotateX: 1.5 }}
+                transition={{ type: "spring", stiffness: 260, damping: 23 }}
+              >
+                <extra.icon size={18} className="mt-0.5 shrink-0 text-primary" />
                 <div>
-                  <p className="text-[14px] font-semibold">{e.title}</p>
-                  <p className="mt-1 text-[12.5px] text-muted-foreground leading-relaxed">
-                    {e.desc}
-                  </p>
+                  <p className="text-[14px] font-semibold">{extra.title}</p>
+                  <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">{extra.desc}</p>
                 </div>
-              </div>
+              </motion.div>
             </Reveal>
           ))}
         </div>

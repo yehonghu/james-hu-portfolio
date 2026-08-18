@@ -1,16 +1,13 @@
-/*
- * Titanium Keynote — glass navbar.
- * Transparent over hero, frosted glass after scroll. apple.com behavior.
- */
 import { useEffect, useState } from "react";
-import { ASSETS } from "@/lib/assets";
+import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { ASSETS } from "@/lib/assets";
 
 const LINKS = [
-  { href: "#work", label: "作品" },
-  { href: "#services", label: "服务" },
-  { href: "#process", label: "流程" },
-  { href: "#about", label: "关于" },
+  { href: "#work", label: "Work" },
+  { href: "#services", label: "Capabilities" },
+  { href: "#process", label: "Process" },
+  { href: "#about", label: "About" },
 ];
 
 export default function Nav() {
@@ -25,68 +22,44 @@ export default function Nav() {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-strong" : "bg-transparent"
-      }`}
-    >
-      <nav className="container flex items-center justify-between h-14">
-        <a href="#top" className="flex items-center gap-2.5">
-          <img src={ASSETS.logo} alt="JH" className="w-8 h-8 rounded-full" />
-          <span className="font-display font-bold text-[17px] tracking-tight">
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "glass-strong border-b border-border" : "bg-transparent"}`}>
+      <nav className="container flex h-16 items-center justify-between">
+        <a href="#top" className="flex items-center gap-2.5" aria-label="James Hu home">
+          <img src={ASSETS.logo} alt="JH monogram" className="h-8 w-8 rounded-full" />
+          <span className="font-display text-[17px] font-bold tracking-tight">
             James Hu<span className="text-gravity">.</span>
           </span>
         </a>
 
-        <div className="hidden md:flex items-center gap-8">
-          {LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-[13.5px] text-muted-foreground hover:text-foreground transition-colors duration-200"
-            >
-              {l.label}
+        <div className="hidden items-center gap-8 md:flex">
+          {LINKS.map((link) => (
+            <a key={link.href} href={link.href} className="text-[13px] text-muted-foreground transition-colors duration-200 hover:text-foreground">
+              {link.label}
             </a>
           ))}
-          <a
-            href="#contact"
-            className="btn-press text-[13px] font-semibold px-4 py-1.5 rounded-full bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
-          >
-            聊聊项目
+          <a href="#contact" className="btn-press rounded-full bg-primary px-4 py-1.5 text-[13px] font-semibold text-primary-foreground shadow-[0_10px_26px_-12px_rgba(83,137,255,0.8)] hover:opacity-95">
+            Start a project
           </a>
         </div>
 
-        <button
-          className="md:hidden p-2 text-foreground"
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-        >
+        <button className="p-2 text-foreground md:hidden" onClick={() => setOpen((value) => !value)} aria-label={open ? "Close navigation" : "Open navigation"} aria-expanded={open}>
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </nav>
 
       {open && (
-        <div className="md:hidden glass-strong border-t border-border">
-          <div className="container py-4 flex flex-col gap-4">
-            {LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="text-[15px] text-muted-foreground hover:text-foreground"
-              >
-                {l.label}
+        <motion.div className="border-t border-border glass-strong md:hidden" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+          <div className="container flex flex-col gap-4 py-5">
+            {LINKS.map((link) => (
+              <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="text-[15px] text-muted-foreground transition-colors hover:text-foreground">
+                {link.label}
               </a>
             ))}
-            <a
-              href="#contact"
-              onClick={() => setOpen(false)}
-              className="btn-press text-center text-[14px] font-semibold px-4 py-2.5 rounded-full bg-primary text-primary-foreground"
-            >
-              聊聊项目
+            <a href="#contact" onClick={() => setOpen(false)} className="btn-press rounded-full bg-primary px-4 py-2.5 text-center text-[14px] font-semibold text-primary-foreground">
+              Start a project
             </a>
           </div>
-        </div>
+        </motion.div>
       )}
     </header>
   );
