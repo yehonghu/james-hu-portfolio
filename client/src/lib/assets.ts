@@ -24,4 +24,10 @@ export const ASSETS = {
   findHouse: `${base}/manus-storage/findhouse_home_00eda56e.png`,
   psychMind: `${base}/manus-storage/psychmind_portfolio_preview.png`,
   gameLibrary: `${base}/manus-storage/group9_game_portfolio_preview.png`,
+  bookeaseLive: `${base}/manus-storage/bookease_live_2026.png`,
+  findHouseLive: `${base}/manus-storage/findhouse_live_2026.png`,
+  psychMindLive: `${base}/manus-storage/psychmind_live_2026.png`,
+  ourPlanetLive: `${base}/manus-storage/ourplanet_live_2026.png`,
+  iphone15Live: `${base}/manus-storage/iphone15_live_2026.png`,
+  gameLibraryLive: `${base}/manus-storage/game_library_live_2026.png`,
 };
