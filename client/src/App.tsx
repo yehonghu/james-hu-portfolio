@@ -6,7 +6,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import ScrollProgress from "./components/ScrollProgress";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
-import MotionStudy from "./pages/MotionStudy";
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "") || "";
 
@@ -14,7 +13,6 @@ function Routes() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
-      <Route path={"/motion-study"} component={MotionStudy} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
