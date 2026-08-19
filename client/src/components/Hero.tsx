@@ -1,6 +1,5 @@
 import {
   motion,
-  useMotionTemplate,
   useMotionValue,
   useReducedMotion,
   useScroll,
@@ -8,11 +7,10 @@ import {
   useTransform,
 } from "framer-motion";
 import { ArrowDownRight, ArrowRight, MapPin, Sparkles } from "lucide-react";
-import { useEffect, useRef, type PointerEvent } from "react";
+import type { PointerEvent } from "react";
 import { ASSETS } from "@/lib/assets";
 
 const EASE = [0.23, 1, 0.32, 1] as const;
-const HERO_VIDEO = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260808_112712_da9d53df-6d27-4b12-bdf6-aa9dc2622bdf.mp4";
 
 const line = (index: number) => ({
   initial: { opacity: 0, y: 34, rotateX: -16 },
@@ -22,25 +20,21 @@ const line = (index: number) => ({
 
 export default function Hero() {
   const reduceMotion = useReducedMotion();
-  const videoRef = useRef<HTMLVideoElement>(null);
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const rotateY = useSpring(useTransform(pointerX, [-0.5, 0.5], [-4.5, 4.5]), {
+  const rotateY = useSpring(useTransform(pointerX, [-0.5, 0.5], [-7, 7]), {
     stiffness: 190,
-    damping: 24,
+    damping: 22,
   });
-  const rotateX = useSpring(useTransform(pointerY, [-0.5, 0.5], [3.5, -3.5]), {
+  const rotateX = useSpring(useTransform(pointerY, [-0.5, 0.5], [6, -6]), {
     stiffness: 190,
-    damping: 24,
+    damping: 22,
   });
-  const spotlightX = useTransform(pointerX, [-0.5, 0.5], ["18%", "82%"]);
-  const spotlightY = useTransform(pointerY, [-0.5, 0.5], ["18%", "82%"]);
-  const spotlight = useMotionTemplate`radial-gradient(circle 18rem at ${spotlightX} ${spotlightY}, rgb(236 245 255 / 18%), rgb(160 190 255 / 7%) 32%, transparent 68%)`;
   const { scrollYProgress } = useScroll();
   const frameY = useTransform(scrollYProgress, [0, 0.32], [0, -38]);
   const frameScale = useTransform(scrollYProgress, [0, 0.32], [1, 0.96]);
 
-  const updatePointer = (event: PointerEvent<HTMLElement>) => {
+  const updatePointer = (event: PointerEvent<HTMLDivElement>) => {
     if (reduceMotion) return;
     const bounds = event.currentTarget.getBoundingClientRect();
     pointerX.set((event.clientX - bounds.left) / bounds.width - 0.5);
@@ -52,34 +46,9 @@ export default function Hero() {
     pointerY.set(0);
   };
 
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (reduceMotion) {
-      video.pause();
-      return;
-    }
-
-    video.muted = true;
-    void video.play().catch(() => undefined);
-  }, [reduceMotion]);
-
   return (
-    <section
-      id="top"
-      className="hero-cinematic relative isolate overflow-hidden pt-28 md:pt-36 pb-20 md:pb-30"
-      onPointerMove={updatePointer}
-      onPointerLeave={resetPointer}
-    >
-      <div aria-hidden="true" className="hero-cinematic__video">
-        <video ref={videoRef} autoPlay muted loop playsInline preload="metadata">
-          <source src={HERO_VIDEO} type="video/mp4" />
-        </video>
-        <div className="hero-cinematic__veil" />
-      </div>
-      <motion.div aria-hidden="true" className="hero-cinematic__spotlight" style={{ background: spotlight }} />
-      <div aria-hidden="true" className="hero-cinematic__aura absolute inset-0 pointer-events-none">
+    <section id="top" className="relative isolate overflow-hidden pt-28 md:pt-36 pb-20 md:pb-30">
+      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
         <div className="ambient-grid absolute -top-14 left-[-20%] h-[760px] w-[140%] opacity-75" />
         <motion.div
           className="orb absolute -top-24 left-[4%] h-64 w-64 bg-sky-400/20"
@@ -103,16 +72,16 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          <h1 className="font-display cinematic-heading text-[50px] font-bold leading-[0.94] sm:text-[68px] lg:text-[88px]">
-            <motion.span {...line(1)} className="cinematic-heading__line block text-titanium">
+          <h1 className="font-display text-[50px] font-bold leading-[0.94] sm:text-[68px] lg:text-[88px]">
+            <motion.span {...line(1)} className="block text-titanium">
               Design that thinks.
             </motion.span>
-            <motion.span {...line(2)} className="cinematic-heading__line block text-titanium">
+            <motion.span {...line(2)} className="block text-titanium">
               Code that delivers.
             </motion.span>
             <motion.span
               {...line(3)}
-              className="cinematic-heading__line mt-5 block text-[27px] font-semibold tracking-tight text-gravity sm:text-[36px] lg:text-[42px]"
+              className="mt-5 block text-[27px] font-semibold tracking-tight text-gravity sm:text-[36px] lg:text-[42px]"
             >
               One practice. End to end.
             </motion.span>
@@ -130,14 +99,14 @@ export default function Hero() {
           <motion.div {...line(5)} className="mt-10 flex flex-wrap items-center gap-4">
             <a
               href="#work"
-              className="metal-action metal-action--solid btn-press group inline-flex items-center gap-2 rounded-full px-6 py-3 text-[15px] font-semibold"
+              className="btn-press group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-[15px] font-semibold text-primary-foreground shadow-[0_14px_40px_-12px_rgba(88,144,255,0.65)] hover:opacity-95"
             >
               Explore selected work
               <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </a>
             <a
               href="#contact"
-              className="metal-action metal-action--ghost btn-press inline-flex items-center gap-2 rounded-full px-6 py-3 text-[15px] font-medium"
+              className="btn-press inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-[15px] font-medium transition-colors hover:bg-white/10"
             >
               Start a conversation
               <ArrowDownRight size={16} className="text-primary" />
@@ -145,13 +114,13 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <div className="scene relative min-h-[430px] sm:min-h-[520px]">
+        <div className="scene relative min-h-[430px] sm:min-h-[520px]" onPointerMove={updatePointer} onPointerLeave={resetPointer}>
           <motion.div
             className="scene-stage absolute inset-0 flex items-center justify-center"
             style={reduceMotion ? undefined : { y: frameY, scale: frameScale }}
           >
             <motion.div
-              className="depth-card glow-border hero-workspace relative w-full max-w-[600px] overflow-hidden rounded-[2rem] border border-border bg-card/55"
+              className="depth-card glow-border relative w-full max-w-[600px] overflow-hidden rounded-[2rem] border border-border bg-card/55"
               style={reduceMotion ? undefined : { rotateX, rotateY }}
               transition={{ type: "spring", stiffness: 180, damping: 22 }}
             >
