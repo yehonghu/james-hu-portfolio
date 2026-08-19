@@ -22,4 +22,6 @@ export const ASSETS = {
   iphone15: `${base}/manus-storage/iphone15pro_home_ca046256.png`,
   ourPlanet: `${base}/manus-storage/ourplanet_home_ec31c366.png`,
   findHouse: `${base}/manus-storage/findhouse_home_00eda56e.png`,
+  psychMind: `${base}/manus-storage/psychmind_portfolio_preview.png`,
+  gameLibrary: `${base}/manus-storage/group9_game_portfolio_preview.png`,
 };
