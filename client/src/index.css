@@ -988,11 +988,7 @@
 }
 
 .motion-study__shade {
-  z-index: 7;
-  background:
-    radial-gradient(circle 24rem at var(--ms-mx) var(--ms-my), rgb(255 250 227 / 15%), transparent 70%),
-    linear-gradient(180deg, rgb(3 15 17 / 13%) 0%, transparent 28%, rgb(4 19 19 / 11%) 54%, rgb(5 15 14 / 72%) 100%);
-  opacity: 0.88;
+  display: none;
 }
 
 .motion-study__cursor {
