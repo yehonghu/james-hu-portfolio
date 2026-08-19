@@ -10,21 +10,25 @@ import Services from "@/components/Services";
 import Process from "@/components/Process";
 import About from "@/components/About";
 import Contact, { Footer } from "@/components/Contact";
+import LiquidAtmosphere from "@/components/LiquidAtmosphere";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Nav />
-      <main>
-        <Hero />
-        <Stats />
-        <Work />
-        <Services />
-        <Process />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
+    <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
+      <LiquidAtmosphere />
+      <div className="relative z-10">
+        <Nav />
+        <main>
+          <Hero />
+          <Stats />
+          <Work />
+          <Services />
+          <Process />
+          <About />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
