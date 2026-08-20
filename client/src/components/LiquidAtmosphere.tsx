@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useReducedMotion } from "framer-motion";
 
-const INTERACTIVE_GLASS = ".liquid-frame, .liquid-card, .liquid-action, .liquid-code-link, .liquid-tag";
+const INTERACTIVE_GLASS = ".liquid-glass, .liquid-frame, .liquid-card, .liquid-action, .liquid-code-link, .liquid-tag";
 
 /**
  * A decorative global layer that drives the ambient glass background and the

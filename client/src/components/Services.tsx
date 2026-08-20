@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
 import { CalendarCheck, Code2, Figma, Palette, Search, Store } from "lucide-react";
+import LiquidGlass from "./LiquidGlass";
 import { Reveal, SectionLabel } from "./Reveal";
 
 const SERVICES = [
@@ -62,25 +62,25 @@ export default function Services() {
         <div className="scene mt-16 grid gap-4 md:grid-cols-3">
           {SERVICES.map((service, index) => (
             <Reveal key={service.title} delay={index * 0.08} depth={index * 16}>
-              <motion.article
-                className="depth-card group flex h-full flex-col rounded-3xl border border-border glass p-7"
-                whileHover={{ y: -10, rotateX: 3, rotateY: index === 1 ? 0 : index === 0 ? -3 : 3 }}
-                transition={{ type: "spring", stiffness: 250, damping: 22 }}
-              >
-                <div className={`mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent} shadow-lg`}>
-                  <service.icon size={20} className="text-white" />
-                </div>
-                <h3 className="font-display text-[22px] font-bold">{service.title}</h3>
-                <p className="mt-4 flex-1 text-[14px] leading-relaxed text-muted-foreground">{service.desc}</p>
-                <ul className="mt-6 flex flex-col gap-2.5">
-                  {service.points.map((point) => (
-                    <li key={point} className="flex items-center gap-2 text-[13px] text-secondary-foreground">
-                      <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${service.accent}`} />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-              </motion.article>
+              <article className="h-full">
+                <LiquidGlass size="lg" className="depth-card h-full rounded-3xl">
+                  <div className="flex h-full flex-col p-7">
+                    <div className={`mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent} shadow-lg`}>
+                      <service.icon size={20} className="text-white" />
+                    </div>
+                    <h3 className="font-display text-[22px] font-bold">{service.title}</h3>
+                    <p className="mt-4 flex-1 text-[14px] leading-relaxed text-muted-foreground">{service.desc}</p>
+                    <ul className="mt-6 flex flex-col gap-2.5">
+                      {service.points.map((point) => (
+                        <li key={point} className="flex items-center gap-2 text-[13px] text-secondary-foreground">
+                          <span className={`h-1.5 w-1.5 rounded-full bg-gradient-to-r ${service.accent}`} />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </LiquidGlass>
+              </article>
             </Reveal>
           ))}
         </div>
@@ -88,17 +88,17 @@ export default function Services() {
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
           {EXTRAS.map((extra, index) => (
             <Reveal key={extra.title} delay={0.18 + index * 0.07} depth={12}>
-              <motion.div
-                className="depth-card flex h-full items-start gap-4 rounded-3xl border border-border glass px-6 py-5"
-                whileHover={{ y: -5, rotateX: 1.5 }}
-                transition={{ type: "spring", stiffness: 260, damping: 23 }}
-              >
-                <extra.icon size={18} className="mt-0.5 shrink-0 text-primary" />
-                <div>
-                  <p className="text-[14px] font-semibold">{extra.title}</p>
-                  <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">{extra.desc}</p>
-                </div>
-              </motion.div>
+              <div className="h-full">
+                <LiquidGlass size="md" className="depth-card h-full rounded-3xl">
+                  <div className="flex h-full items-start gap-4 px-6 py-5">
+                    <extra.icon size={18} className="mt-0.5 shrink-0 text-primary" />
+                    <div>
+                      <p className="text-[14px] font-semibold">{extra.title}</p>
+                      <p className="mt-1 text-[12.5px] leading-relaxed text-muted-foreground">{extra.desc}</p>
+                    </div>
+                  </div>
+                </LiquidGlass>
+              </div>
             </Reveal>
           ))}
         </div>

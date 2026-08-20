@@ -9,6 +9,7 @@ import {
 import { ArrowDownRight, ArrowRight, MapPin, Sparkles } from "lucide-react";
 import type { PointerEvent } from "react";
 import { ASSETS } from "@/lib/assets";
+import LiquidGlass from "./LiquidGlass";
 
 const EASE = [0.23, 1, 0.32, 1] as const;
 
@@ -66,10 +67,12 @@ export default function Hero() {
       <div className="container relative grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
         <div className="relative z-10">
           <motion.div {...line(0)} className="mb-7 flex items-center gap-2">
-            <span className="glass inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[12px] text-muted-foreground">
-              <MapPin size={13} className="text-primary" />
-              Toronto, Ontario · Design & Full-Stack Development
-            </span>
+            <LiquidGlass size="sm" interactive={false} className="inline-block rounded-full">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-[12px] text-muted-foreground">
+                <MapPin size={13} className="text-primary" />
+                Toronto, Ontario · Design & Full-Stack Development
+              </span>
+            </LiquidGlass>
           </motion.div>
 
           <h1 className="font-display text-[50px] font-bold leading-[0.94] sm:text-[68px] lg:text-[88px]">
@@ -81,7 +84,7 @@ export default function Hero() {
             </motion.span>
             <motion.span
               {...line(3)}
-              className="mt-5 block text-[27px] font-semibold tracking-tight text-gravity sm:text-[36px] lg:text-[42px]"
+              className="mt-5 block text-[27px] font-semibold tracking-tight text-gravity drop-shadow-[0_8px_24px_rgba(75,145,255,0.22)] sm:text-[36px] lg:text-[42px]"
             >
               One practice. End to end.
             </motion.span>
@@ -89,7 +92,7 @@ export default function Hero() {
 
           <motion.p
             {...line(4)}
-            className="mt-8 max-w-[560px] text-[16px] leading-relaxed text-muted-foreground md:text-[18px]"
+            className="mt-8 max-w-[560px] text-[16px] leading-relaxed text-slate-200/90 drop-shadow-[0_2px_16px_rgba(4,8,22,0.75)] md:text-[18px]"
           >
             I&apos;m <span className="font-medium text-foreground">James Hu</span>, a Toronto-based designer and
             full-stack developer. I turn early ideas into deliberate identities, clear interfaces, and robust
@@ -104,13 +107,12 @@ export default function Hero() {
               Explore selected work
               <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </a>
-            <a
-              href="#contact"
-              className="btn-press inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-[15px] font-medium transition-colors hover:bg-white/10"
-            >
-              Start a conversation
-              <ArrowDownRight size={16} className="text-primary" />
-            </a>
+            <LiquidGlass size="sm" className="inline-block rounded-full">
+              <a href="#contact" className="btn-press inline-flex items-center gap-2 px-6 py-3 text-[15px] font-medium text-foreground">
+                Start a conversation
+                <ArrowDownRight size={16} className="text-primary" />
+              </a>
+            </LiquidGlass>
           </motion.div>
         </div>
 
@@ -120,38 +122,46 @@ export default function Hero() {
             style={reduceMotion ? undefined : { y: frameY, scale: frameScale }}
           >
             <motion.div
-              className="depth-card glow-border relative w-full max-w-[600px] overflow-hidden rounded-[2rem] border border-border bg-card/55"
+              className="w-full max-w-[600px]"
               style={reduceMotion ? undefined : { rotateX, rotateY }}
               transition={{ type: "spring", stiffness: 180, damping: 22 }}
             >
-              <div aria-hidden="true" className="absolute inset-0 z-10 bg-gradient-to-tr from-slate-950/35 via-transparent to-sky-300/10" />
-              <img
-                src={ASSETS.heroWorkspace}
-                alt="James Hu's design and development workspace"
-                className="aspect-[1.02/1] w-full object-cover"
-                loading="eager"
-              />
-              <div className="absolute inset-x-4 bottom-4 z-20 flex items-center justify-between rounded-2xl glass-strong px-4 py-3 sm:inset-x-6 sm:bottom-6 sm:px-5">
-                <div className="flex items-center gap-3">
-                  <img src={ASSETS.logo} alt="JH monogram" className="h-9 w-9 rounded-xl" />
-                  <div>
-                    <p className="text-[13px] font-semibold leading-tight">Design + engineering</p>
-                    <p className="mt-0.5 text-[11.5px] leading-tight text-muted-foreground">One accountable partner</p>
-                  </div>
+              <LiquidGlass size="xl" className="depth-card overflow-hidden rounded-[2rem]">
+                <div className="relative overflow-hidden rounded-[inherit]">
+                  <div aria-hidden="true" className="absolute inset-0 z-10 bg-gradient-to-tr from-slate-950/35 via-transparent to-sky-300/10" />
+                  <img
+                    src={ASSETS.heroWorkspace}
+                    alt="James Hu's design and development workspace"
+                    className="aspect-[1.02/1] w-full object-cover"
+                    loading="eager"
+                  />
+                  <LiquidGlass size="sm" className="absolute inset-x-4 bottom-4 z-20 rounded-2xl sm:inset-x-6 sm:bottom-6" interactive={false}>
+                    <div className="flex items-center justify-between px-4 py-3 sm:px-5">
+                      <div className="flex items-center gap-3">
+                        <img src={ASSETS.logo} alt="JH monogram" className="h-9 w-9 rounded-xl" />
+                        <div>
+                          <p className="text-[13px] font-semibold leading-tight">Design + engineering</p>
+                          <p className="mt-0.5 text-[11.5px] leading-tight text-muted-foreground">One accountable partner</p>
+                        </div>
+                      </div>
+                      <Sparkles size={17} className="text-sky-300" aria-hidden="true" />
+                    </div>
+                  </LiquidGlass>
                 </div>
-                <Sparkles size={17} className="text-sky-300" aria-hidden="true" />
-              </div>
+              </LiquidGlass>
             </motion.div>
           </motion.div>
 
           <motion.div
             aria-hidden="true"
-            className="absolute right-[-4%] top-[8%] hidden rounded-2xl glass px-4 py-3 text-[12px] text-muted-foreground shadow-2xl sm:block"
+            className="absolute right-[-4%] top-[8%] hidden sm:block"
             initial={{ opacity: 0, x: 28, y: 12 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ delay: 0.9, duration: 0.6, ease: EASE }}
           >
-            Built for the next move
+            <LiquidGlass size="sm" className="rounded-2xl shadow-2xl" interactive={false}>
+              <span className="block px-4 py-3 text-[12px] text-muted-foreground">Built for the next move</span>
+            </LiquidGlass>
           </motion.div>
         </div>
       </div>

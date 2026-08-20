@@ -177,7 +177,7 @@ function CaseBlock({ study, index }: { study: CaseStudy; index: number }) {
   const visual = (
     <Reveal depth={28} delay={0.05} className="scene relative">
       <motion.div
-        className="liquid-frame depth-card group relative overflow-hidden rounded-[1.75rem]"
+        className="liquid-glass liquid-frame depth-card group relative overflow-hidden rounded-[1.75rem]"
         whileHover={reduceMotion ? undefined : { y: -4 }}
         transition={{ type: "spring", stiffness: 260, damping: 30 }}
       >
@@ -258,7 +258,7 @@ export default function Work() {
             {PROJECT_INDEX.map((project, index) => (
               <Reveal key={project.title} delay={index * 0.055} depth={index * 9}>
                 <motion.article
-                  className="liquid-card depth-card group overflow-hidden rounded-[1.55rem]"
+                  className="liquid-glass liquid-card depth-card group overflow-hidden rounded-[1.55rem]"
                   whileHover={reduceMotion ? undefined : { y: -4 }}
                   transition={{ type: "spring", stiffness: 280, damping: 30 }}
                 >

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { ASSETS } from "@/lib/assets";
+import LiquidGlass from "./LiquidGlass";
 
 const LINKS = [
   { href: "#work", label: "Work" },
@@ -22,8 +23,13 @@ export default function Nav() {
   }, []);
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled ? "glass-strong border-b border-border" : "bg-transparent"}`}>
-      <nav className="container flex h-16 items-center justify-between">
+    <header className="fixed inset-x-0 top-0 z-50 px-2 pt-2 sm:px-4">
+      <LiquidGlass
+        size="sm"
+        interactive={false}
+        className={`transition-all duration-300 ${scrolled ? "rounded-2xl" : "rounded-2xl border-transparent bg-transparent shadow-none"}`}
+      >
+      <nav className="container flex h-14 items-center justify-between">
         <a href="#top" className="flex items-center gap-2.5" aria-label="James Hu home">
           <img src={ASSETS.logo} alt="JH monogram" className="h-8 w-8 rounded-full" />
           <span className="font-display text-[17px] font-bold tracking-tight">
@@ -48,7 +54,8 @@ export default function Nav() {
       </nav>
 
       {open && (
-        <motion.div className="border-t border-border glass-strong md:hidden" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+        <motion.div className="border-t border-border md:hidden" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
+          <LiquidGlass size="md" interactive={false} className="rounded-t-none border-x-0 border-b-0">
           <div className="container flex flex-col gap-4 py-5">
             {LINKS.map((link) => (
               <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="text-[15px] text-muted-foreground transition-colors hover:text-foreground">
@@ -59,8 +66,10 @@ export default function Nav() {
               Start a project
             </a>
           </div>
+          </LiquidGlass>
         </motion.div>
       )}
+      </LiquidGlass>
     </header>
   );
 }
