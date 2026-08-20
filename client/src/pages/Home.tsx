@@ -10,14 +10,12 @@ import Services from "@/components/Services";
 import Process from "@/components/Process";
 import About from "@/components/About";
 import Contact, { Footer } from "@/components/Contact";
-import LiquidAtmosphere from "@/components/LiquidAtmosphere";
-import { LiquidGlassBackdrop } from "@/components/LiquidGlass";
+import CanvasParticleField from "@/components/CanvasParticleField";
 
 export default function Home() {
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background text-foreground">
-      <LiquidGlassBackdrop />
-      <LiquidAtmosphere />
+      <CanvasParticleField />
       <div className="relative z-10">
         <Nav />
         <main>

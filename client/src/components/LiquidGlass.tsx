@@ -1,21 +1,43 @@
-import { forwardRef, type HTMLAttributes, type PointerEvent } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useRef,
+  type HTMLAttributes,
+  type PointerEvent,
+  type Ref,
+} from "react";
 import { cn } from "@/lib/utils";
 
 type LiquidGlassSize = "sm" | "md" | "lg" | "xl";
+type LiquidGlassVariant = "regular" | "clear" | "material";
 
 export type LiquidGlassProps = HTMLAttributes<HTMLDivElement> & {
-  /** Controls the default radius and internal spacing of the glass surface. */
+  /** Controls the concentric radius and optical weight of the surface. */
   size?: LiquidGlassSize;
-  /** Enables cursor-positioned refraction and hover elevation. */
+  /** Selects functional glass, media overlay glass, or a quiet content material. */
+  variant?: LiquidGlassVariant;
+  /** Enables a small, locally interpolated lens response for intentional controls. */
   interactive?: boolean;
 };
 
+type LensState = {
+  currentX: number;
+  currentY: number;
+  targetX: number;
+  targetY: number;
+};
+
+const setForwardedRef = (ref: Ref<HTMLDivElement>, node: HTMLDivElement | null) => {
+  if (typeof ref === "function") ref(node);
+  else if (ref) ref.current = node;
+};
+
 /**
- * A layered, production-ready glass surface.
+ * A restrained web interpretation of Liquid Glass.
  *
- * The CSS implementation separates base refraction, body tint, border,
- * highlight, and inset edge light. Pointer movement only updates CSS variables,
- * avoiding React re-renders during high-frequency interactions.
+ * The resting surface stays quiet. Only controls that explicitly opt into
+ * `interactive` receive a small lens displacement; the value is interpolated
+ * in a local requestAnimationFrame loop without triggering React renders.
  */
 const LiquidGlass = forwardRef<HTMLDivElement, LiquidGlassProps>(
   (
@@ -23,36 +45,80 @@ const LiquidGlass = forwardRef<HTMLDivElement, LiquidGlassProps>(
       className,
       children,
       size = "md",
-      interactive = true,
+      variant = "regular",
+      interactive = false,
       onPointerMove,
       onPointerLeave,
       ...props
     },
-    ref,
+    forwardedRef,
   ) => {
+    const surfaceRef = useRef<HTMLDivElement | null>(null);
+    const frameRef = useRef<number | null>(null);
+    const lensRef = useRef<LensState>({
+      currentX: 50,
+      currentY: 50,
+      targetX: 50,
+      targetY: 50,
+    });
+
+    const setRef = (node: HTMLDivElement | null) => {
+      surfaceRef.current = node;
+      setForwardedRef(forwardedRef, node);
+    };
+
+    const renderLens = () => {
+      const surface = surfaceRef.current;
+      if (!surface) {
+        frameRef.current = null;
+        return;
+      }
+
+      const lens = lensRef.current;
+      lens.currentX += (lens.targetX - lens.currentX) * 0.15;
+      lens.currentY += (lens.targetY - lens.currentY) * 0.15;
+      surface.style.setProperty("--glass-lens-x", `${lens.currentX.toFixed(2)}%`);
+      surface.style.setProperty("--glass-lens-y", `${lens.currentY.toFixed(2)}%`);
+
+      const pending = Math.abs(lens.targetX - lens.currentX) + Math.abs(lens.targetY - lens.currentY);
+      if (pending > 0.08) {
+        frameRef.current = window.requestAnimationFrame(renderLens);
+      } else {
+        frameRef.current = null;
+      }
+    };
+
+    const scheduleLens = () => {
+      if (frameRef.current === null) frameRef.current = window.requestAnimationFrame(renderLens);
+    };
+
     const updatePointer = (event: PointerEvent<HTMLDivElement>) => {
       onPointerMove?.(event);
       if (!interactive || (event.pointerType && event.pointerType !== "mouse" && event.pointerType !== "pen")) return;
 
       const bounds = event.currentTarget.getBoundingClientRect();
-      const x = ((event.clientX - bounds.left) / bounds.width) * 100;
-      const y = ((event.clientY - bounds.top) / bounds.height) * 100;
-      event.currentTarget.style.setProperty("--mouse-x", `${Math.min(100, Math.max(0, x)).toFixed(2)}%`);
-      event.currentTarget.style.setProperty("--mouse-y", `${Math.min(100, Math.max(0, y)).toFixed(2)}%`);
+      lensRef.current.targetX = Math.min(100, Math.max(0, ((event.clientX - bounds.left) / bounds.width) * 100));
+      lensRef.current.targetY = Math.min(100, Math.max(0, ((event.clientY - bounds.top) / bounds.height) * 100));
       event.currentTarget.dataset.pointerActive = "true";
+      scheduleLens();
     };
 
     const resetPointer = (event: PointerEvent<HTMLDivElement>) => {
       onPointerLeave?.(event);
-      event.currentTarget.style.setProperty("--mouse-x", "28%");
-      event.currentTarget.style.setProperty("--mouse-y", "18%");
+      lensRef.current.targetX = 50;
+      lensRef.current.targetY = 50;
       delete event.currentTarget.dataset.pointerActive;
+      scheduleLens();
     };
+
+    useEffect(() => () => {
+      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
+    }, []);
 
     return (
       <div
-        ref={ref}
-        className={cn("liquid-glass", `liquid-glass--${size}`, className)}
+        ref={setRef}
+        className={cn("liquid-glass", `liquid-glass--${size}`, `liquid-glass--${variant}`, className)}
         data-interactive={interactive ? "true" : "false"}
         onPointerMove={updatePointer}
         onPointerLeave={resetPointer}
@@ -65,18 +131,5 @@ const LiquidGlass = forwardRef<HTMLDivElement, LiquidGlassProps>(
 );
 
 LiquidGlass.displayName = "LiquidGlass";
-
-/** Decorative companion layer for pages that need a refraction-rich backdrop. */
-export function LiquidGlassBackdrop({ className }: { className?: string }) {
-  return (
-    <div className={cn("liquid-glass-backdrop", className)} aria-hidden="true">
-      <div className="liquid-glass-backdrop__orb liquid-glass-backdrop__orb--cobalt" />
-      <div className="liquid-glass-backdrop__orb liquid-glass-backdrop__orb--violet" />
-      <div className="liquid-glass-backdrop__orb liquid-glass-backdrop__orb--aqua" />
-      <div className="liquid-glass-backdrop__orb liquid-glass-backdrop__orb--pearl" />
-      <div className="liquid-glass-backdrop__mesh" />
-    </div>
-  );
-}
 
 export default LiquidGlass;

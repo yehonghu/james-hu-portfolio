@@ -23,17 +23,17 @@ export default function Hero() {
   const reduceMotion = useReducedMotion();
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const rotateY = useSpring(useTransform(pointerX, [-0.5, 0.5], [-7, 7]), {
-    stiffness: 190,
-    damping: 22,
+  const rotateY = useSpring(useTransform(pointerX, [-0.5, 0.5], [-2.4, 2.4]), {
+    stiffness: 145,
+    damping: 28,
   });
-  const rotateX = useSpring(useTransform(pointerY, [-0.5, 0.5], [6, -6]), {
-    stiffness: 190,
-    damping: 22,
+  const rotateX = useSpring(useTransform(pointerY, [-0.5, 0.5], [2, -2]), {
+    stiffness: 145,
+    damping: 28,
   });
   const { scrollYProgress } = useScroll();
   const frameY = useTransform(scrollYProgress, [0, 0.32], [0, -38]);
-  const frameScale = useTransform(scrollYProgress, [0, 0.32], [1, 0.96]);
+  const frameScale = useTransform(scrollYProgress, [0, 0.32], [1, 0.98]);
 
   const updatePointer = (event: PointerEvent<HTMLDivElement>) => {
     if (reduceMotion) return;
@@ -49,20 +49,7 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative isolate overflow-hidden pt-28 md:pt-36 pb-20 md:pb-30">
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-        <div className="ambient-grid absolute -top-14 left-[-20%] h-[760px] w-[140%] opacity-75" />
-        <motion.div
-          className="orb absolute -top-24 left-[4%] h-64 w-64 bg-sky-400/20"
-          animate={reduceMotion ? undefined : { x: [0, 22, 0], y: [0, 30, 0] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="orb absolute right-[5%] top-28 h-72 w-72 bg-violet-500/16"
-          animate={reduceMotion ? undefined : { x: [0, -34, 0], y: [0, -20, 0] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <div className="absolute inset-0 glow-blue opacity-80" />
-      </div>
+      <div aria-hidden="true" className="hero-ambient-wash absolute inset-0 pointer-events-none" />
 
       <div className="container relative grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-8">
         <div className="relative z-10">
@@ -107,7 +94,7 @@ export default function Hero() {
               Explore selected work
               <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-0.5" />
             </a>
-            <LiquidGlass size="sm" className="inline-block rounded-full">
+            <LiquidGlass size="sm" interactive className="inline-block rounded-full">
               <a href="#contact" className="btn-press inline-flex items-center gap-2 px-6 py-3 text-[15px] font-medium text-foreground">
                 Start a conversation
                 <ArrowDownRight size={16} className="text-primary" />
@@ -126,7 +113,7 @@ export default function Hero() {
               style={reduceMotion ? undefined : { rotateX, rotateY }}
               transition={{ type: "spring", stiffness: 180, damping: 22 }}
             >
-              <LiquidGlass size="xl" className="depth-card overflow-hidden rounded-[2rem]">
+              <LiquidGlass size="xl" variant="clear" interactive={false} className="overflow-hidden">
                 <div className="relative overflow-hidden rounded-[inherit]">
                   <div aria-hidden="true" className="absolute inset-0 z-10 bg-gradient-to-tr from-slate-950/35 via-transparent to-sky-300/10" />
                   <img
@@ -135,7 +122,7 @@ export default function Hero() {
                     className="aspect-[1.02/1] w-full object-cover"
                     loading="eager"
                   />
-                  <LiquidGlass size="sm" className="absolute inset-x-4 bottom-4 z-20 rounded-2xl sm:inset-x-6 sm:bottom-6" interactive={false}>
+                  <LiquidGlass size="md" variant="clear" className="absolute inset-x-4 bottom-4 z-20 sm:inset-x-6 sm:bottom-6" interactive={false}>
                     <div className="flex items-center justify-between px-4 py-3 sm:px-5">
                       <div className="flex items-center gap-3">
                         <img src={ASSETS.logo} alt="JH monogram" className="h-9 w-9 rounded-xl" />
@@ -159,7 +146,7 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ delay: 0.9, duration: 0.6, ease: EASE }}
           >
-            <LiquidGlass size="sm" className="rounded-2xl shadow-2xl" interactive={false}>
+            <LiquidGlass size="md" variant="material" interactive={false}>
               <span className="block px-4 py-3 text-[12px] text-muted-foreground">Built for the next move</span>
             </LiquidGlass>
           </motion.div>

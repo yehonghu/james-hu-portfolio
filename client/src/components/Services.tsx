@@ -63,7 +63,7 @@ export default function Services() {
           {SERVICES.map((service, index) => (
             <Reveal key={service.title} delay={index * 0.08} depth={index * 16}>
               <article className="h-full">
-                <LiquidGlass size="lg" className="depth-card h-full rounded-3xl">
+                <LiquidGlass size="lg" variant="material" className="h-full">
                   <div className="flex h-full flex-col p-7">
                     <div className={`mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br ${service.accent} shadow-lg`}>
                       <service.icon size={20} className="text-white" />
@@ -89,7 +89,7 @@ export default function Services() {
           {EXTRAS.map((extra, index) => (
             <Reveal key={extra.title} delay={0.18 + index * 0.07} depth={12}>
               <div className="h-full">
-                <LiquidGlass size="md" className="depth-card h-full rounded-3xl">
+                <LiquidGlass size="md" variant="material" className="h-full">
                   <div className="flex h-full items-start gap-4 px-6 py-5">
                     <extra.icon size={18} className="mt-0.5 shrink-0 text-primary" />
                     <div>

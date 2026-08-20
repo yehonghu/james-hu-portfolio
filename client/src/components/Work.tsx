@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink, Github } from "lucide-react";
 import { ASSETS } from "@/lib/assets";
 import { Reveal, SectionLabel } from "./Reveal";
@@ -173,19 +173,16 @@ function ProjectActions({ links }: { links: ProjectLink[] }) {
 }
 
 function CaseBlock({ study, index }: { study: CaseStudy; index: number }) {
-  const reduceMotion = useReducedMotion();
   const visual = (
     <Reveal depth={28} delay={0.05} className="scene relative">
       <motion.div
-        className="liquid-glass liquid-frame depth-card group relative overflow-hidden rounded-[1.75rem]"
-        whileHover={reduceMotion ? undefined : { y: -4 }}
-        transition={{ type: "spring", stiffness: 260, damping: 30 }}
+        className="liquid-frame group relative"
       >
         <img
           src={study.images[0].src}
           alt={study.images[0].alt}
           loading="lazy"
-          className="aspect-[16/10] w-full object-cover transition-transform duration-700 group-hover:scale-[1.018]"
+          className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.006]"
         />
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/28 via-transparent to-white/10" />
         <div aria-hidden="true" className="liquid-frame__sheen" />
@@ -225,7 +222,6 @@ function CaseBlock({ study, index }: { study: CaseStudy; index: number }) {
 }
 
 export default function Work() {
-  const reduceMotion = useReducedMotion();
 
   return (
     <section id="work" className="portfolio-index-stage relative py-24 md:py-36">
@@ -258,13 +254,11 @@ export default function Work() {
             {PROJECT_INDEX.map((project, index) => (
               <Reveal key={project.title} delay={index * 0.055} depth={index * 9}>
                 <motion.article
-                  className="liquid-glass liquid-card depth-card group overflow-hidden rounded-[1.55rem]"
-                  whileHover={reduceMotion ? undefined : { y: -4 }}
-                  transition={{ type: "spring", stiffness: 280, damping: 30 }}
+                  className="liquid-card group"
                 >
                   <a href={project.href} target="_blank" rel="noreferrer" className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
-                    <div className="relative aspect-[16/10] overflow-hidden rounded-t-[1.55rem]">
-                      <img src={project.src} alt={`${project.title} current live homepage`} loading="lazy" className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.018]" />
+                    <div className="relative aspect-[16/10] overflow-hidden rounded-t-[inherit]">
+                      <img src={project.src} alt={`${project.title} current live homepage`} loading="lazy" className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.006]" />
                       <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-slate-950/62 via-transparent to-transparent" />
                       <span className="liquid-status absolute bottom-3 left-3">{project.status} <ArrowUpRight size={12} /></span>
                     </div>
