@@ -71,7 +71,7 @@ export default function Hero() {
             </motion.span>
             <motion.span
               {...line(3)}
-              className="mt-5 block text-[27px] font-semibold tracking-tight text-gravity drop-shadow-[0_8px_24px_rgba(75,145,255,0.22)] sm:text-[36px] lg:text-[42px]"
+              className="mt-5 block text-[27px] font-semibold tracking-tight text-sky-100 drop-shadow-[0_8px_24px_rgba(24,92,184,0.42)] sm:text-[36px] lg:text-[42px]"
             >
               One practice. End to end.
             </motion.span>

@@ -9,6 +9,7 @@ type Particle = {
   size: number;
   alpha: number;
   color: string;
+  phase: number;
 };
 
 type PointerPosition = {
@@ -17,35 +18,70 @@ type PointerPosition = {
   active: boolean;
 };
 
-const PARTICLE_COLORS = ["116, 179, 255", "148, 126, 255", "110, 222, 228", "224, 236, 255"];
+const PARTICLE_COLORS = ["115, 185, 255", "154, 132, 255", "104, 237, 221", "231, 241, 255"];
 const MOBILE_BREAKPOINT = 768;
 const MAX_PIXEL_RATIO = 2;
-const POINTER_RADIUS = 190;
+const POINTER_RADIUS = 210;
 
 const randomBetween = (minimum: number, maximum: number) => minimum + Math.random() * (maximum - minimum);
 
 function createParticle(width: number, height: number): Particle {
   const direction = randomBetween(-Math.PI, Math.PI);
-  const speed = randomBetween(0.045, 0.16);
+  const speed = randomBetween(0.055, 0.18);
 
   return {
     x: randomBetween(0, width),
     y: randomBetween(0, height),
     vx: Math.cos(direction) * speed,
     vy: Math.sin(direction) * speed,
-    size: randomBetween(0.8, 2.3),
-    alpha: randomBetween(0.12, 0.42),
+    size: randomBetween(1.05, 2.85),
+    alpha: randomBetween(0.34, 0.78),
     color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
+    phase: randomBetween(0, Math.PI * 2),
   };
 }
 
+function paintLightField(context: CanvasRenderingContext2D, width: number, height: number, time: number) {
+  const phase = time * 0.00006;
+  const largestDimension = Math.max(width, height);
+
+  const paintOrb = (x: number, y: number, radius: number, color: string, alpha: number) => {
+    const gradient = context.createRadialGradient(x, y, 0, x, y, radius);
+    gradient.addColorStop(0, `rgba(${color}, ${alpha})`);
+    gradient.addColorStop(0.44, `rgba(${color}, ${alpha * 0.38})`);
+    gradient.addColorStop(1, `rgba(${color}, 0)`);
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, width, height);
+  };
+
+  context.globalCompositeOperation = "source-over";
+  paintOrb(width * (0.13 + Math.sin(phase) * 0.045), height * (0.15 + Math.cos(phase * 1.2) * 0.035), largestDimension * 0.52, "57, 133, 255", 0.23);
+  paintOrb(width * (0.86 + Math.cos(phase * 0.92) * 0.04), height * (0.36 + Math.sin(phase * 1.1) * 0.06), largestDimension * 0.48, "143, 99, 255", 0.19);
+  paintOrb(width * (0.42 + Math.sin(phase * 0.78) * 0.05), height * (0.9 + Math.cos(phase) * 0.025), largestDimension * 0.46, "52, 198, 204", 0.14);
+}
+
+function paintParticle(context: CanvasRenderingContext2D, particle: Particle, time: number) {
+  const pulse = 0.82 + Math.sin(time * 0.00135 + particle.phase) * 0.18;
+  const coreRadius = particle.size * pulse;
+  const halo = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, coreRadius * 7.5);
+  halo.addColorStop(0, `rgba(${particle.color}, ${particle.alpha * 0.34})`);
+  halo.addColorStop(0.32, `rgba(${particle.color}, ${particle.alpha * 0.12})`);
+  halo.addColorStop(1, `rgba(${particle.color}, 0)`);
+  context.fillStyle = halo;
+  context.beginPath();
+  context.arc(particle.x, particle.y, coreRadius * 7.5, 0, Math.PI * 2);
+  context.fill();
+
+  context.fillStyle = `rgba(${particle.color}, ${Math.min(1, particle.alpha * 1.08)})`;
+  context.beginPath();
+  context.arc(particle.x, particle.y, coreRadius, 0, Math.PI * 2);
+  context.fill();
+}
+
 /**
- * A single, pointer-inert Canvas layer for ambient motion.
- *
- * It does no React state work after mounting. The animation is tied to browser
- * repaint through requestAnimationFrame and all subscriptions are removed on
- * unmount. The visual is deliberately quiet so foreground controls remain the
- * only active Liquid Glass layer.
+ * An independently rendered ambient field. It uses one Canvas, a single rAF
+ * loop, and no React state writes after mount, so foreground composition and
+ * input remain isolated from the animated background.
  */
 export default function CanvasParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -63,14 +99,12 @@ export default function CanvasParticleField() {
     let particles: Particle[] = [];
     const pointer: PointerPosition = { x: -1000, y: -1000, active: false };
 
-    const redraw = () => {
+    const draw = (time: number) => {
       context.clearRect(0, 0, width, height);
-      for (const particle of particles) {
-        context.beginPath();
-        context.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
-        context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        context.fill();
-      }
+      paintLightField(context, width, height, time);
+      context.globalCompositeOperation = "lighter";
+      for (const particle of particles) paintParticle(context, particle, time);
+      context.globalCompositeOperation = "source-over";
     };
 
     const resize = () => {
@@ -85,7 +119,7 @@ export default function CanvasParticleField() {
 
       const count = width < MOBILE_BREAKPOINT ? 40 : 80;
       particles = Array.from({ length: count }, () => createParticle(width, height));
-      redraw();
+      draw(0);
     };
 
     const updateParticle = (particle: Particle, delta: number) => {
@@ -97,7 +131,7 @@ export default function CanvasParticleField() {
 
         if (distanceSquared > 0.01 && distanceSquared < radiusSquared) {
           const distance = Math.sqrt(distanceSquared);
-          const influence = (1 - distance / POINTER_RADIUS) * 0.018 * delta;
+          const influence = (1 - distance / POINTER_RADIUS) * 0.025 * delta;
           particle.vx += (dx / distance) * influence;
           particle.vy += (dy / distance) * influence;
         }
@@ -106,15 +140,15 @@ export default function CanvasParticleField() {
       particle.vx *= 0.998;
       particle.vy *= 0.998;
       const speed = Math.hypot(particle.vx, particle.vy);
-      if (speed > 0.22) {
-        particle.vx = (particle.vx / speed) * 0.22;
-        particle.vy = (particle.vy / speed) * 0.22;
+      if (speed > 0.26) {
+        particle.vx = (particle.vx / speed) * 0.26;
+        particle.vy = (particle.vy / speed) * 0.26;
       }
 
       particle.x += particle.vx * delta;
       particle.y += particle.vy * delta;
 
-      const margin = 10;
+      const margin = 24;
       if (particle.x < -margin) particle.x = width + margin;
       else if (particle.x > width + margin) particle.x = -margin;
       if (particle.y < -margin) particle.y = height + margin;
@@ -124,16 +158,8 @@ export default function CanvasParticleField() {
     const animate = (time: number) => {
       const delta = previousTime ? Math.min((time - previousTime) / 16.667, 2) : 1;
       previousTime = time;
-      context.clearRect(0, 0, width, height);
-
-      for (const particle of particles) {
-        updateParticle(particle, delta);
-        context.beginPath();
-        context.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
-        context.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        context.fill();
-      }
-
+      for (const particle of particles) updateParticle(particle, delta);
+      draw(time);
       frameId = window.requestAnimationFrame(animate);
     };
 
